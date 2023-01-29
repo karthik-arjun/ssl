@@ -1,0 +1,444 @@
+
+
+https://docs.google.com/document/d/1daWEkgwfxTAAEYw-42ZKAb6nV3CfLk66eoOS6ijzXgs/edit?usp=sharing
+
+Logs 
+
+var/logs/nginx 
+tail -f access.log
+====================================================
+
+installation (rocky linux 8)
+
+========================================
+ssh-keygen
+
+add feature , option, search openssh. eanble
+
+key.pub
+key.pri
+
+open key.pub and copy the teat
+
+ssh -i key.pub root@12.26.5.66
+============================================
+installing Nginx
+
+apt install nginx (yum install nginx)
+systemctl start nginx
+
+or
+yum -y remove nginx 
+wget https:/nginx/filr.rpm
+yum install filr.rpm
+systemctl start nginx
+12.23.16.5
+
+
+yum install nginx
+systemctl start nginx
+systemctl enable nginx
+nginx -V
+==============================================
+==============================================
+==============================================
+Http protocol
+
+introduction to protocols
+
+smiple hhttp requesr
+telnet dexter.kplabs.in 80
+
+GET /sample.html HTTP/1.1
+host: dexter.kplabs.in
+
+
+partail http request (used in youtubr)
+http/1.1 206 partial contant
+here is first 20 secons data
+
+get /movie.mp4 http/1.1
+host: dexter.kplabs.in
+rabge: bytes=0-1024
+
+
+curl -I dexter.com  (prints only respond head) (this is will not print content)
+curl --header "Range: bytes=0-20" dexter.com
+
+http conditional request
+
+http-post
+
+http-head
+curl -I google.com
+
+http Trace
+curl -X "TRACE" google.com
+
+========================
+======================
+Nginx Configuration File: consists of various settings based on which Nginx will run and process the request
+
+nginx.conf file is stored at /etc/nginx directory
+
+
+Nginx.conf file
+user = nginx
+log = /var/log/nginx
+
+
+====================
+
+ssl configuration
+
+mkdir /etc/mginx/ssl
+
+copy crt and key in this folder
+
+ssl_certificate /etc/nginx/ssl/example.crt;
+ssl_certificate_key /etc/nginx/ssl/example.key;
+
+server {
+	listen 80 default_server;
+	server_name www.example.com;
+	return 301 https;//$server_name$request _url;
+}
+server {
+	listen 443 ssl;
+	server_name www.example.com;
+	ssl_certificate /etc/nginx/ssl/example.crt;
+	ssl_certificate_key /etc/nginx/ssl/example.key;
+	
+	location / {
+		root /usr/share/nginx/html;
+		index india.html index.htm;
+	}
+	location /admin {
+		proxy_pass  /usr/share/nginx/html;
+		index india.html index.htm;
+	}
+}
+
+
+sudo ln -s /etc/nginx/sites-available/* /etc/nginx/sites-enabled/
+
+========================
+ssl free
+sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -sha384 -keyout server-cert.key -out 
+sudo openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -sha384 -keyout alterntives.key -out alterntives.crt
+/etc/nginx/ssl/ssl
+
+	return 301 https;//$server_name$request _url;
+}
+server {
+	listen 443 ssl;
+	server_name www.example.com;
+	ssl_certificate /etc/nginx/ssl/ssl/alterntives.crt;
+	ssl_certificate_key /et/nginx/ssl/ssl/alterntives.key;
+
+sudo vi /etc/host
+<ip of server> <doamin name>
+
+=================================================
+server {
+	listen 443 ssl default_server;
+        listen [::]:443 ssl default_server;
+	server_name www.example.com;
+	
+	root /usr/share/nginx/html;
+	index india.html index.htm;
+	
+	ssl on;
+	ssl_certificate /etc/nginx/ssl/ssl/ssl/start.grabon.in_2023.crt;
+	ssl_certificate_key /et/nginx/ssl/ssl/ssl/start.grabon.in_2023.key;
+	
+	ssl_session_timeout 5m;
+	ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+
+
+        location / {
+                # First attempt to serve request as file, then
+                # as directory, then fall back to displaying a 404.
+                try_files $uri $uri/ =404;
+        }
+
+}
+
+================================================
+orginal ssl working
+
+sudo openssl pkcs12 -in catalogsync2024.pfx -nocerts -out karthikarjun.key
+
+
+sudo openssl pkcs12 -in catalogsync2024.pfx -clcerts -nokeys -out karthikarjun.crt
+#after runing this 2 cmd nginx -t is asking for pem passwords
+
+sudo openssl rsa -in karthikarjun.key -out karthikarjun.key
+# this will remove the password
+
+==============================================================================
+https://www.youtube.com/watch?v=S_imVMFOdhU&t=258s
+
+openssl pkcs12 -in grabon.pfx -out grabonout.crt -nodes  (encryped file)
+openssl pkcs12 -in catalogsync2024.pfx -out karthikarjun.crt -nodes -nocrets  (un encpted file)
+
+#if need only,used for RSA key   openssl pkcs12 -in grabon.pfx -nodes -nocrets | openssl rsa -out grabonout.key 
+
+openssl pkcs12 -in catalogsync2024.pfx.pfx -nodes -nocerts | openssl ec -out karthikarjun.key
+
+======================================================
+https://www.youtube.com/watch?v=AqgClYuy1wM
+revices proxy
+
+server {
+	listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+	server_name www.example.com;
+
+	# load configuration files for the default server block.
+	include /etc/nginx/default.d/*.conf;
+
+	error_page 404 /404.hml;
+
+	location / {
+                
+		proxy_pass http://192.168.1.200;
+        }
+
+	location /view {
+                
+		proxy_pass http://192.168.1.200;
+        }
+
+	location ^~ /blog {
+                
+		proxy_pass http://172.33.1.300/blog;
+        }
+
+	error_page 500 502 503 504 /50x.html
+	location = /50x.html{
+	}
+}
+=============================================================
+Laith Academy
+https://www.youtube.com/watch?v=7VAI73roXaY&t=2532s
+
+
+end to end
+
+http{
+
+	#type {
+		#text/css	css;
+		#text/html	html;
+		include mime.types;
+#}
+	server {
+		listen 8080;
+		root /users/laithh/mysite;
+		
+		location /fruits {
+			root /users/laithh/mysite;
+		}
+		location /carbs {
+			alias /users/laithh/mysite/fruits;
+		# alias will take you the fruit floder and excute fruits page
+		}
+		location /veg {
+			root /users/laithh/mysite; 
+			# we have created a floder in veg and add veg.html insed of index.html
+			#403 error, means no index.html file foound
+			#we can try_files give the sub floder path and also add index.html(2nd trial will go get the landpage ) and 404 for non of them exsite and throw error
+			try_files /veg/veg.html /index.html =404;
+		}
+		location *~ /count/[0-9] {
+			#*~ is regual expression . it run the /count/ny number index file will come or above 9 its will trow 404
+			root /users/laithh/mysite;
+			try_files /index.html =404;
+
+		}
+}
+
+}
+----------------------------------------------------------------------------------------------------------------------------------
+rewrite and redirection
+
+when you go to /crops and redirect to /friuts
+
+http{
+
+	#type {
+		#text/css	css;
+		#text/html	html;
+		include mime.types;
+#}
+	server {
+		listen 8080;
+		root /users/laithh/mysite;
+		
+		location /fruits {
+			root /users/laithh/mysite;
+		}
+		location /carbs {
+			alias /users/laithh/mysite/fruits;
+		# /cards folder dont exsits but alias will take you the fruit floder and excute fruits page alias will take you the fruit floder and excute fruits page
+		}
+		location /veg {
+			root /users/laithh/mysite; 
+			# we have created a floder in veg and add veg.html insed of index.html
+			#403 error, means no index.html file foound
+			#we can try_files give the sub floder path and also add index.html(2nd trial will go get the landpage ) and 404 for non of them exsite and throw error
+			try_files /veg/veg.html /index.html =404;
+		}
+		location ~* /count/[0-9] {
+			#~* is regual expression . it run the /count/ny number index file will come or above 9 its will trow 404
+			root /users/laithh/mysite;
+			try_files /index.html =404;
+		}
+		location /crops {
+			return 307 /fruits; # when you url/crops . it goes to url/fuits and print this url
+			
+		}
+}
+
+}
+-----------------------------------------------------------------------------------------------
+
+rewrite
+
+when url/number[some number]  it goes to url/count but displays only url/number/5
+
+http{
+
+	#type {
+		#text/css	css;
+		#text/html	html;
+		include mime.types;
+#}
+	server {
+		listen 8080;
+		root /users/laithh/mysite;
+		
+		location /fruits {
+			root /users/laithh/mysite;
+		}
+		location /carbs {
+			alias /users/laithh/mysite/fruits;
+		# /cards folder dont exsits but alias will take you the fruit floder and excute fruits page
+		}
+		location /veg {
+			root /users/laithh/mysite; 
+			# we have created a floder in veg and add veg.html insed of index.html
+			#403 error, means no index.html file foound
+			#we can try_files give the sub floder path and also add index.html(2nd trial will go get the landpage ) and 404 for non of them exsite and throw error
+			try_files /veg/veg.html /index.html =404;
+		}
+		rewrite ^/number/(\w+) /count/$1;
+
+		location ~* /count/[0-9] {
+			#~* is regual expression . it run the /count/ny number index file will come or above 9 its will trow 404
+			root /users/laithh/mysite;
+			try_files /index.html =404;
+		}
+		location /crops {
+			return 307 /fruits; # when you url/crops . it goes to url/fuits and print this url
+			
+		}
+}
+
+}
+==================================================================================================
+load balancer
+
+we need to build muilt servers using docker and host set with differnt port numbers 
+and give location /
+
+http{
+
+	#type {
+		#text/css	css;
+		#text/html	html;
+		include mime.types;
+#}
+
+		upstream backendserver {
+			server 127.0.0.1:1111;
+			server 127.0.0.1:2222;
+			server 127.0.0.1:3333;
+			server 127.0.0.1:4444;
+
+}
+	server {
+		listen 8080;
+		root /users/laithh/mysite;
+
+	
+		location / {
+			proxy_pass http://backendserver/;		
+}
+
+
+		
+		location /fruits {
+			root /users/laithh/mysite;
+		}
+		location /carbs {
+			alias /users/laithh/mysite/fruits;
+		# /cards folder dont exsits but alias will take you the fruit floder and excute fruits page
+		}
+		location /veg {
+			root /users/laithh/mysite; 
+			# we have created a floder in veg and add veg.html insed of index.html
+			#403 error, means no index.html file foound
+			#we can try_files give the sub floder path and also add index.html(2nd trial will go get the landpage ) and 404 for non of them exsite and throw error
+			try_files /veg/veg.html /index.html =404;
+		}
+		rewrite ^/number/(\w+) /count/$1;
+
+		location ~* /count/[0-9] {
+			#~* is regual expression . it run the /count/ny number index file will come or above 9 its will trow 404
+			root /users/laithh/mysite;
+			try_files /index.html =404;
+		}
+		location /crops {
+			return 307 /fruits; # when you url/crops . it goes to url/fuits and print this url
+			
+		}
+}
+
+}
+
+==================================================================================
+
+
+final config with working ssl 
+
+server {
+        listen 80;
+        listen [::]:80;
+        server_name karthikarjun.in;
+        return 301 https://$host$request_uri;
+}
+
+
+
+server {
+
+        listen 443 ssl http2;
+        listen [::]:443 ssl http2;
+        server_name karthikarjun.in;
+        ssl_certificate /etc/nginx/ssl/ssl/alter/karthikarjun.crt;
+        ssl_certificate_key /etc/nginx/ssl/ssl/alter/karthikarjun.key;
+        ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+        ssl_ciphers HIGH:!aNULL:!MD5;
+        root /var/www/karthikarjun.in;
+        index index.html;
+
+       location / {
+              try_files $uri $uri/ =404;
+       }
+}
+
+
+
+
