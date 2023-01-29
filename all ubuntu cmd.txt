@@ -1,0 +1,362 @@
+https://www.youtube.com/channel/UCqJ5Q-g2e2FDoxfY8_rLF6w
+Android and Tech Solutions
+
+Terminal:
+Ctrl+Atl+T to open terminal
+Dirt are n=blue color 
+files are white color
+clear  to clean cmd
+Ctrl+l  to clean cmd
+
+OS version:
+cat /etc/os-release
+
+Updates:
+sudo apt update (updating apps)
+sudo ubuntu-drivers autoinstall  (updating drivers)
+
+intall:
+sudo apt install gnome-tweet (installing internal app)
+wget https://package.microsoft.com/chorme.rpm
+sudo apt install ./google-chrome.deb  (install .deb formate)
+sudo dpkg -i google-chrome.deb (install .deb formate)
+sudo yum install ./google-chrome.rpm  (install .rpm formate)
+sudo rpm install ./google-chrome.deb  (install .rpm formate)
+
+
+Ls:
+ls for list of items in dirtree
+ls -l  detail information of the dirtre
+ls -la detail information and hidenfiles
+
+Delete all in the floder
+
+rm -rf *
+
+Pwd
+pwd present working dirtre
+
+Cd:
+cd ..   it will return to 1 step back dirtre
+cd      it will return to home  dirtre
+cd Desktop   it will take to desktop dirtre. and Desktop is case senitive
+
+To create a file
+touch file      it will create file
+cat > file2      to create and write  (ctrl+z wil save the file)
+cat file2        To see the data
+cat >> file2     To edit, write and save (ctrl+z wil save the file)( data will update with present data)
+
+To create Dirt
+mkdir karthik    
+mkdir f1 f2 f3 f4    (all folder created at a time)
+
+Copy
+cp file2(old file) new       It will copy in new
+sudo cp file2 /f1                 it copy file to dirtr
+
+tomcat 	-> webapp.dist
+	-> webapp
+	cd webapp.dist
+	ls	
+		1.txt 2.txt  (if we want t copy all this content to webapp folder
+		cp -R * ../webapps/    (r=recursrivly, * prent dirt ../ = back to abova dir tomcat webapp/= folder)
+
+cp -r vtigercrm /var/www/html/      vcopy full folder to dir
+
+move dirte
+sudo mv f5 /f4                  dirt will move to other dirtr
+
+delete
+rm file   to delte file
+rm -r f1  to delete folder
+
+Rename a file and dirtr
+mv file file3    file rename
+mv f2 f3         dirt rename
+
+stat file1     ( this shows the properties)
+
+
+rm f*    (* notes delete all files satrting letter "f")
+
+
+to delete the floder
+rmdir f1  (only works wjem floder is empty)
+rm -r f1 (delete even data is there in floder)
+rm -r f*  (delete all file at a time floder name starting with "f")
+
+============
+
+fairewall;
+to check the port number open or not?
+netstat -plunt | grep :8080      (output should come as listen state. i shows only internally) externally you have open AWS
+
+
+=======
+useradd abc
+passwd abc
+
+to list of user cat /etc/passwd
+
+to give ownership to a folder
+chown -R abc:abc flodername
+
+to give root access
+visudo
+abc (ALL) NOPASSWD:(ALL)
+
+to give password less auth
+vi /var/ssh/sshd_config
+
+remove # on passwordless YEs
+keep # on passwordles No
+
+to see group list cat /etc/group
+add user to group docker
+
+usermod -aG docker abc
+
+=====
+
+serch a file
+ php --ini | grep Loaded
+
+find / -name context.xml     ( it can find all sub folder from present dirte
+============================================================================
+Network
+
+edit IPv4 address
+ip addr        to check lan card and loopback address
+
+configuare
+nmcli connection add con-name eth0 type ethernet ifname ens3 ipv4.addresses 172.25.1.4/24 ipv4.method manual connection.autoconnect yes (given connection name eth0 and we can give any name to config) (en3 is lan card name)
+
+ip addr            to check lan card and loopback address
+ping 172.25.1.4
+
+To modify  ipaddress
+nmcli connection modify eth0 ipv4.addresses 172.25.1.5/24 ipv4.method manual connection.autoconnect yes
+nmcil connection up eth0
+
+#to check which port number are open in linux
+netstat -tulpn
+
+
+=============================================================================
+Tar
+
+mkdir new
+cd new
+touch f1 f2 f3 f4 f5
+cd ..
+ls
+
+tar -cvf new.tar new     (first compressed method)
+ls
+du -sh new.tar      ( to view file size)
+
+gzip -v new.tar   (second coompressed method)
+ls
+du -sh new.tar.gz
+
+bzip2 -v new.tar.gz (third coompressed method)
+ls
+
+
+upcompress file
+
+bunzip2 -v new.tar.gz.bz2
+
+gunzip -v new.tar.gz
+
+rm -rf new
+
+tar -tvf new.tar   ( to the data in tar file)
+
+tar -xvf new.tar   (uncompressed)
+
+==============================================================================
+Root login
+
+(First we have set root password)
+sudo paaswd root
+
+sudo apt update
+
+sudo apt install lighdm       (package install)
+
+cd /etc/lightdm/
+sudo nano lightdm.conf (create a file name lightdm.conf)
+
+write the below content in it.
+
+[SeatDefaults]
+greeter-session=unity-greeter
+user-session=ubuntu
+greeter-show-manual-login=true
+
+sudo reboot
+
+and login to root
+=============================================================================
+how to change host name
+
+gaurav@ubuntu:$   hostname
+ubuntu
+
+gaurav@ubuntu:$   hostnamectl
+
+hostnamectl set-hostname server    (to change hostname)
+============================================================================
+how to create user and give sudo access 
+
+first swicth user
+sudo su
+
+cd
+
+adduser urttech
+passwd welcome
+
+su urttech
+cd
+pwd
+
+(to check sudo access or not)
+sudo apt-get update
+
+exit
+(go back to sudo)
+
+su sudo
+
+sudo visudo
+below this line
+#allow member of group sudo to execute
+%urttech ALL=(ALL:ALL) NOPASSWD:ALL
+
+https://www.youtube.com/watch?v=T7Hw-94BSgg
+URTtech
+============================================================================
+chmod 
+
+chmod +x f1
+chmod +x /home/arjun/Desktop/f1
+
+chomd 777 /home/arjun/Desktop/f1
+
+===========================================================================
+to astables connection between two linux system,
+
+we new to edit and copy some ssh files in both systems
+1. eanbleing password auth on both systems
+2. resetarting ssh servers
+3. genarate
+
+vi /etc/ssh/sshd_config
+
+#find the "PasswordAuthentication"
+#uncommit on PasswordAuthentication yes
+#commit on PasswordAuthentication no
+#save the file =Esc,:wq
+
+systemctl restart sshd
+
+same thing do it other server
+
+3.genarate ssh
+
+#in webserver
+in jenkins server
+ssh-keygen
+#press enter ,enter, enter)
+
+Go to jenkins servers
+
+2 keys will genarate in /root/.ssh as id_rsa(privat key...we authing with application . we use this private key) and id_rsa.pub(public key.....we genraly we only use this key for authing two system)
+
+cd /root/.ssh
+
+ls
+
+# to copy this keys by this cmd
+
+ssh-copy-id abc@172.31.9.89              #copying to jenkins server from webserver and abc is user in webserver
+
+#to check the connective of remote server ((((webserver))))
+
+ssh abc@172.31.9.89
+
+# now your connected to web server from jenkins server
+
+
+=================================================================
+
+jenkins server
+web server
+
+go to jenkins server and
+install Publish over SSH plgin
+(this pulgin is useful for trasfering deploment)
+
+go to configuartion jenkins
+(we need to proveid server datails and private key)
+
+scooll down find Publish over ssh
+
+->  path to key     /root/.ssh/id_rsa    ( not important to write)(it works with this)
+
+
+second key you to add in server details    (add webserver datails)
+
+SSH
+	name = webserver
+	hostname = 172.31.9.89
+	username = abc
+	remote Directory = /var          (we can give exact location in build phase)
+click on advance 
+click on password 
+		write password abc
+
+click on test configuration
+Apply and save
+
+=====
+
+now make a freesyle project
+webserver_proj click freestyle
+
+add git 
+
+build
+	select send files excute commands over ssh
+		ssh server  name = webserver
+		tranfer, source file = **/*.html       (**/* location of the var/www/html this indicates inner file )
+                         remote directly =  www/html   (remain location from above 10 line)
+
+Post-build action   (this used for storage for package after excuting, we need artifac account)
+                    (no we dont have artfact account, so we are stroing in jenkins server)
+	add post-build action, select send build artifacts over ssh 
+                            tranfer, source file = **/*.html
+                            remote directly =  www/html
+
+Appl and save 
+
+Cilck on Build now
+
+now you will get error as UNSTABLE
+
+login to webserver and give persion to abc user 
+
+sudo su -
+cd /
+ls -l
+chown abc:abc var    (giving perasomin to that floder
+chown abc:abc www
+chowm abc:abc html
+
+done
+
+
+sudo ln -s /etc/nginx/sites-available/* /etc/nginx/sites-enabled/
