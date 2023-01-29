@@ -1,0 +1,106 @@
+ubuntu cmd
+
+update:
+
+sudo apt-get update -y
+sudo apt upgrade -y
+
+to satrt or enable firewall
+
+sudo ufw enable
+sudo ufw status
+
+to add port number in firewall
+sudo ufw allow 80/tcp
+
+to check port numbers
+sudo ufw status verbose
+
+install apps
+
+sudo apt-get install git -y
+
+check all installated apps
+
+sudo apt list --installed | less/more
+sudo apt list --installed | grep git
+sudo apt list apache2
+sudo apt list -a git
+
+sudo dpkg --list
+sudo dpkg --list | grep nginx
+sudo dpkg --list 'x*'
+
+
+List Installed Packages with dpkg-query
+
+sudo dpkg-query -l | less
+sudo dpkg-query -l | grep package_name
+sudo dpkg-query -f '${binary:Package}\n' -W > packages_list.txt
+sudo xargs -a packages_list.txt apt install (to install same packages in other server
+sudo dpkg-query -f '${binary:Package}\n' -W | wc -l
+output:544
+
+
+uninstall appication
+sudo apt-get remove git
+
+======================================================================
+Add user and delete user
+
+sudo adduser bestbuy
+sudo passwd bestbuy
+
+list of users
+cat /etc/passwd
+or
+getent passwd
+getent passwd bestbuy
+
+sudo usermod -aG sudo bestbuy  (adding to sudo group)
+
+sudo userdel username
+Then you may want to delete the home directory for the deleted user account 
+sudo rm -r /home/username
+
+To modify
+To modify the username of a user:
+
+usermod -l new_username old_username
+To change the password for a user:
+
+sudo passwd username
+To change the shell for a user:
+
+sudo chsh username
+To change the details for a user (for example real name):
+
+sudo chfn username
+To add a user to the sudo group:
+
+adduser username sudo
+or
+
+usermod -aG sudo username
+
+==============================================================
+
+to check cpu performance
+sudo top
+sudo apt-get install htop
+sudo htop
+
+top the running service. dlete with pid
+kill pid
+
+===============================================================
+
+to check the disk space in ubuntu
+
+df
+df -h
+df -T
+
+du -h /etc/
+
+
